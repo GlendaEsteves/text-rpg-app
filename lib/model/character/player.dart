@@ -11,6 +11,7 @@ class Player {
   int lvl = 1;
   int exp = 0;
   int money = 100;
+  bool playerExist = false;
   Classes clss;
 
   Player({required this.name, required this.clss});
@@ -28,5 +29,14 @@ class Player {
   int intl() {
     clss.setModInt();
     return clss.modInt;
+  }
+
+  int lvlUp() {
+    lvl++;
+    return lvl;
+  }
+
+  set expUp(int expPlus) {
+    exp += expPlus;
   }
 }
