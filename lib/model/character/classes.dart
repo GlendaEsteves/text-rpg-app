@@ -1,12 +1,19 @@
-class Classes {
-  String? type;
+import 'package:flutter/cupertino.dart';
+
+class Classes extends ChangeNotifier {
+  String type;
   late int modStr;
   late int modAgi;
   late int modInt;
 
-  Classes({required this.type});
+  Classes({this.type = 'Guerreiro'});
 
-  void setModStr() {
+  void setType(String newType) {
+    type = newType;
+    notifyListeners();
+  }
+
+  int setModStr() {
     switch (type) {
       case 'Guerreiro':
         modStr = 9;
@@ -16,10 +23,12 @@ class Classes {
         break;
       case 'Mago':
         modStr = 5;
+        break;
     }
+    return modStr;
   }
 
-  void setModAgi() {
+  int setModAgi() {
     switch (type) {
       case 'Guerreiro':
         modAgi = 7;
@@ -29,10 +38,12 @@ class Classes {
         break;
       case 'Mago':
         modAgi = 7;
+        break;
     }
+    return modAgi;
   }
 
-  void setModInt() {
+  int setModInt() {
     switch (type) {
       case 'Guerreiro':
         modInt = 5;
@@ -42,6 +53,8 @@ class Classes {
         break;
       case 'Mago':
         modInt = 9;
+        break;
     }
+    return modInt;
   }
 }

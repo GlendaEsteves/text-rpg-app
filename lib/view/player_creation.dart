@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:text_rpg/model/character/classes.dart';
 import 'package:text_rpg/model/character/player.dart';
@@ -20,53 +21,11 @@ class _PlayerCreationState extends State<PlayerCreation> {
 
   final _buttonThreeContainer = const Text('Mago');
 
-  late String name;
-
-  late int str;
-
-  late int agi;
-
-  late int intl;
-
-  late int lvl;
-
-  late int exp;
-
-  late int money;
-
-  late bool exists;
-
-  void updatePlayer(Player player) async {
-    final prefs = await SharedPreferences.getInstance();
-    setState(() {
-      name = (prefs.getString('name') ?? '');
-      prefs.setString('name', player.name);
-
-      str = (prefs.getInt('strength'))!;
-      prefs.setInt('strength', player.strength);
-
-      agi = (prefs.getInt('agility'))!;
-      prefs.setInt('agility', player.agility);
-
-      intl = (prefs.getInt('inteligence'))!;
-      prefs.setInt('inteligence', player.inteligence);
-
-      lvl = (prefs.getInt('lvl'))!;
-      prefs.setInt('lvl', player.lvl);
-
-      exp = (prefs.getInt('exp'))!;
-      prefs.setInt('exp', player.exp);
-
-      money = (prefs.getInt('money'))!;
-      prefs.setInt('money', player.money);
-
-      exists = (prefs.getBool('playerExists') ?? false);
-      prefs.setBool('money', player.playerExist);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    var playerWatcher = context.watch<Player>();
+    var classWatcher = context.watch<Classes>();
+
     return Scaffold(
       appBar: AppBar(title: const Text('Text RPG')),
       body: Center(
@@ -82,51 +41,60 @@ class _PlayerCreationState extends State<PlayerCreation> {
             ElevatedButton(
                 onPressed: () async {
                   if (_controllerPlayerName.text != '') {
-                    Player player = Player(
-                        name: _controllerPlayerName.text,
-                        clss: Classes(type: _buttonOneContainer.data));
-                    updatePlayer(player);
+                    classWatcher.setType(_buttonOneContainer.data.toString());
+                    playerWatcher.nameChange(_controllerPlayerName.text);
+                    playerWatcher.startStr();
+                    playerWatcher.startAgi();
+                    playerWatcher.startIntl();
+
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PlayerInfo(player: player)));
+                            builder: (context) =>
+                                PlayerInfo(player: playerWatcher)));
                   } else {
                     showSnackBar(context, "PREENCHA SEU NOME");
                   }
                 },
-                child: Text('Guerreiro')),
+                child: const Text('Guerreiro')),
             ElevatedButton(
                 onPressed: () async {
                   if (_controllerPlayerName.text != '') {
-                    Player player = Player(
-                        name: _controllerPlayerName.text,
-                        clss: Classes(type: _buttonTwoContainer.data));
-                    updatePlayer(player);
+                    classWatcher.setType(_buttonTwoContainer.data.toString());
+                    playerWatcher.nameChange(_controllerPlayerName.text);
+                    playerWatcher.startStr();
+                    playerWatcher.startAgi();
+                    playerWatcher.startIntl();
+
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PlayerInfo(player: player)));
+                            builder: (context) =>
+                                PlayerInfo(player: playerWatcher)));
                   } else {
                     showSnackBar(context, 'PREENCHA SEU NOME');
                   }
                 },
-                child: Text('Arqueiro')),
+                child: const Text('Arqueiro')),
             ElevatedButton(
                 onPressed: () async {
                   if (_controllerPlayerName.text != '') {
-                    Player player = Player(
-                        name: _controllerPlayerName.text,
-                        clss: Classes(type: _buttonThreeContainer.data));
-                    updatePlayer(player);
+                    classWatcher.setType(_buttonThreeContainer.data.toString());
+                    playerWatcher.nameChange(_controllerPlayerName.text);
+                    playerWatcher.startStr();
+                    playerWatcher.startAgi();
+                    playerWatcher.startIntl();
+
                     await Navigator.push(
                         context,
                         MaterialPageRoute(
-                            builder: (context) => PlayerInfo(player: player)));
+                            builder: (context) =>
+                                PlayerInfo(player: playerWatcher)));
                   } else {
                     showSnackBar(context, 'PREENCHA SEU NOME');
                   }
                 },
-                child: Text('Mago')),
+                child: const Text('Mago')),
           ],
         ),
       ),

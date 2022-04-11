@@ -1,34 +1,41 @@
+import 'package:flutter/material.dart';
+
 import 'classes.dart';
 
-class Player {
-  String name;
-  late int strength = str();
-  late int agility = agi();
-  late int inteligence = intl();
-  late int hp = str() * 5;
-  late int mp = intl() * 5;
-  late int init = agi() * 3;
+class Player extends ChangeNotifier {
+  String? name = 'Hero';
+  int strength = 5;
+  int agility = 5;
+  int inteligence = 5;
+  late int hp = strength * 5;
+  late int mp = inteligence * 5;
+  late int init = agility * 3;
   int lvl = 1;
   int exp = 0;
   int money = 100;
   bool playerExist = false;
   Classes clss;
 
-  Player({required this.name, required this.clss});
+  Player({name, required this.clss});
 
-  int str() {
-    clss.setModStr();
-    return clss.modStr;
+  void nameChange(String newName) {
+    name = newName;
+    notifyListeners();
   }
 
-  int agi() {
-    clss.setModAgi();
-    return clss.modAgi;
+  void startStr() {
+    strength = clss.setModStr();
+    notifyListeners();
   }
 
-  int intl() {
-    clss.setModInt();
-    return clss.modInt;
+  void startAgi() {
+    agility = clss.setModAgi();
+    notifyListeners();
+  }
+
+  void startIntl() {
+    inteligence = clss.setModInt();
+    notifyListeners();
   }
 
   int lvlUp() {
@@ -38,5 +45,25 @@ class Player {
 
   set expUp(int expPlus) {
     exp += expPlus;
+  }
+
+  void addStr() {
+    strength++;
+    notifyListeners();
+  }
+
+  void addAgi() {
+    agility++;
+    notifyListeners();
+  }
+
+  void addInt() {
+    inteligence++;
+    notifyListeners();
+  }
+
+  void addMoney(int moreMoney) {
+    money += moreMoney;
+    notifyListeners();
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:text_rpg/view/player_choice.dart';
+import 'package:text_rpg/model/days.dart';
+import 'package:text_rpg/view/game.dart';
 
 import '../model/character/player.dart';
 
@@ -52,11 +53,12 @@ class _PlayerInfoState extends State<PlayerInfo> {
             ElevatedButton(
                 onPressed: () async {
                   widget.player.playerExist = true;
+                  Days day = Days();
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
                           builder: (context) =>
-                              PlayerChoice(player: widget.player)));
+                              PlayerChoice(player: widget.player, day: day)));
                 },
                 child: Text(FirstTime(widget.player)))
           ],

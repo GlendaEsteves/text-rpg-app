@@ -1,17 +1,29 @@
 import 'package:flutter/material.dart';
+import 'package:text_rpg/model/areas/city.dart';
 import 'package:text_rpg/view/player_info.dart';
 
 import '../model/character/player.dart';
+import '../model/days.dart';
 
-class PlayerChoice extends StatelessWidget {
-  PlayerChoice({Key? key, required this.player}) : super(key: key);
+class PlayerChoice extends StatefulWidget {
+  PlayerChoice({Key? key, required this.player, required this.day})
+      : super(key: key);
 
   Player player;
+  Days day;
 
+  @override
+  State<PlayerChoice> createState() => _PlayerChoiceState();
+}
+
+class _PlayerChoiceState extends State<PlayerChoice> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Para onde quer ir?')),
+      appBar: AppBar(
+        title: const Text('Para onde quer ir?'),
+        leading: Text('Dia: ${widget.day.day.toString()}'),
+      ),
       body: Padding(
         padding: const EdgeInsets.only(top: 170, left: 10, right: 10),
         child: GridView.count(
@@ -35,7 +47,8 @@ class PlayerChoice extends StatelessWidget {
                   await Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PlayerInfo(player: player)));
+                          builder: (context) =>
+                              PlayerInfo(player: widget.player)));
                 },
                 child: const Text('Informações do Jogador')),
           ],
@@ -67,9 +80,9 @@ showCityChoices(BuildContext context) {
               crossAxisSpacing: 15,
               mainAxisSpacing: 15,
               crossAxisCount: 2,
-              children: const [
+              children: [
                 ElevatedButton(onPressed: null, child: Text('Loja')),
-                ElevatedButton(onPressed: null, child: Text('Treinar')),
+                ElevatedButton(onPressed: () {}, child: Text('Treinar')),
                 ElevatedButton(onPressed: null, child: Text('Trabalhos')),
               ],
             ),
